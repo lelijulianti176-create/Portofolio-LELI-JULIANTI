@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Leli Julianti</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a8a; /* Blue 900 */
+            --secondary-color: #3b82f6; /* Blue 500 */
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        /* Editing Mode Styles */
+        .editable:focus {
+            outline: 2px dashed var(--secondary-color);
+            padding: 2px;
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        #edit-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        #edit-toggle:hover {
+            transform: scale(1.05);
+            background: var(--secondary-color);
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-content h2 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .hero-img {
+            width: 350px;
+            height: 350px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+            position: relative;
+        }
+
+        .hero-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Sections General */
+        section {
+            padding: 100px 10%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 4px;
+            background: var(--secondary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* About */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        /* Education & Experience Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .timeline-date {
+            font-weight: 700;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .timeline-sub {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Projects/Portfolio Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card-img {
+            height: 200px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 3rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-tag {
+            background: #dbeafe;
+            color: var(--secondary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        /* Skills */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .skill-tag {
+            background: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Contact */
+        .contact-container {
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .contact-item:hover {
+            color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        footer {
+            padding: 40px 10%;
+            text-align: center;
+            background: var(--primary-color);
+            color: var(--white);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            #hero {
+                flex-direction: column;
+                text-align: center;
+                height: auto;
+                padding-bottom: 50px;
+            }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-img { margin-top: 50px; width: 280px; height: 280px; }
+            .about-container { grid-template-columns: 1fr; }
+            nav ul { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tombol Mode Edit -->
+    <button id="edit-toggle" onclick="toggleEditMode()">
+        <i class="fa-solid fa-pen-to-square"></i> <span id="btn-text">Edit Website</span>
+    </button>
+
+    <nav>
+        <div class="logo editable" contenteditable="false">LJ.</div>
+        <ul>
+            <li><a href="#hero">Beranda</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#education">Pendidikan</a></li>
+            <li><a href="#experience">Pengalaman</a></li>
+            <li><a href="#portfolio">Portofolio</a></li>
+            <li><a href="#skills">Keahlian</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <div class="hero-content">
+            <h2 class="editable" contenteditable="false">Halo, Saya</h2>
+            <h1 class="editable" contenteditable="false">Leli Julianti</h1>
+            <p class="editable" contenteditable="false">Mahasiswa Pendidikan Masyarakat di Universitas Pendidikan Indonesia yang berfokus pada Administrasi, Komunikasi Publik, dan Media Informasi.</p>
+            <div style="display: flex; gap: 15px; justify-content: inherit;">
+                <a href="#contact" style="padding: 12px 30px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Hubungi Saya</a>
+                <a href="#portfolio" style="padding: 12px 30px; border: 2px solid var(--primary-color); color: var(--primary-color); text-decoration: none; border-radius: 8px; font-weight: 600;">Lihat Karya</a>
+            </div>
+        </div>
+        <div class="hero-img">
+            <img src="https://via.placeholder.com/400x400/1e3a8a/ffffff?text=Leli+Julianti" alt="Foto Profil Leli Julianti" id="profile-img">
+            <div id="img-instructions" style="display:none; font-size: 10px; background: rgba(0,0,0,0.5); color: white; position: absolute; bottom: 0; width: 100%; text-align: center; padding: 5px;">Double klik foto untuk ganti URL</div>
+        </div>
+    </header>
+
+    <!-- About Me -->
+    <section id="about">
+        <div class="section-title">
+            <h2 class="editable" contenteditable="false">Tentang Saya</h2>
+        </div>
+        <div class="about-container">
+            <div class="about-text">
+                <p class="editable" contenteditable="false">Saya adalah mahasiswa Pendidikan Masyarakat Universitas Pendidikan Indonesia yang aktif dalam organisasi, kepanitiaan, dan kegiatan magang. Saya memiliki pengalaman sebagai sekretaris, humas, dan publikasi yang terbiasa mengelola administrasi, komunikasi internal-eksternal, serta pembuatan konten informasi publik.</p>
+                <p class="editable" contenteditable="false">Saya terbiasa bekerja rapi, komunikatif, dan bertanggung jawab, serta memiliki ketertarikan besar pada dunia administratif, komunikasi serta pelayanan publik. "Berorientasi pada pembelajaran, pengalaman lapangan, dan kontribusi nyata dalam dunia kerja."</p>
+            </div>
+            <div class="about-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
+                    <h3 class="editable" contenteditable="false" style="color: var(--secondary-color); font-size: 2rem;">2024</h3>
+                    <p class="editable" contenteditable="false" style="font-size: 0.8rem; color: var(--text-light);">Mulai Kuliah di UPI</p>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
+                    <h3 class="editable" contenteditable="false" style="color: var(--secondary-color); font-size: 2rem;">10+</h3>
+                    <p class="editable" contenteditable="false" style="font-size: 0.8rem; color: var(--text-light);">Pengalaman Proyek/Organisasi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" style="background: #f1f5f9;">
+        <div class="section-title">
+            <h2 class="editable" contenteditable="false">Pendidikan</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="timeline-date editable" contenteditable="false">2024 - Sekarang</span>
+                <h3 class="timeline-title editable" contenteditable="false">Universitas Pendidikan Indonesia</h3>
+                <span class="timeline-sub editable" contenteditable="false">Program Studi Pendidikan Masyarakat</span>
+                <p class="editable" contenteditable="false">Fokus pada pengembangan masyarakat, administrasi pendidikan, dan pemberdayaan sosial.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Activities -->
+    <section id="experience">
+        <div class="section-title">
+            <h2 class="editable" contenteditable="false">Pengalaman & Aktivitas</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item" style="border-left-color: #10b981;">
+                <span class="timeline-date editable" contenteditable="false">Magang</span>
+                <h3 class="timeline-title editable" contenteditable="false">Dinas Komunikasi dan Informatika</h3>
+                <span class="timeline-sub editable" contenteditable="false">Bidang Informasi Komunikasi Publik</span>
+                <p class="editable" contenteditable="false">Bertanggung jawab dalam pengelolaan informasi publik, membantu koordinasi media, dan dokumentasi kegiatan dinas.</p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date editable" contenteditable="false">Organisasi</span>
+                <h3 class="timeline-title editable" contenteditable="false">BEM KEMA PENMAS 2025</h3>
+                <span class="timeline-sub editable" contenteditable="false">Ketua Umum / Sekretaris / Humas</span>
+                <p class="editable" contenteditable="false">Mengelola organisasi mahasiswa, menyusun surat menyurat (Sekretariat), dan menjembatani komunikasi antar lembaga (Humas).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section id="portfolio" style="background: #f1f5f9;">
+        <div class="section-title">
+            <h2 class="editable" contenteditable="false">Portofolio & Karya</h2>
+        </div>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img"><i class="fa-solid fa-file-signature"></i></div>
+                <div class="card-body">
+                    <span class="card-tag editable" contenteditable="false">Administrasi</span>
+                    <h3 class="card-title editable" contenteditable="false">Manajemen Surat Menyurat</h3>
+                    <p class="editable" contenteditable="false" style="font-size: 0.85rem; color: var(--text-light);">Pengelolaan template surat dinas, surat keputusan (SK), dan undangan resmi.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img"><i class="fa-solid fa-bullhorn"></i></div>
+                <div class="card-body">
+                    <span class="card-tag editable" contenteditable="false">Humas</span>
+                    <h3 class="card-title editable" contenteditable="false">Media & Publikasi</h3>
+                    <p class="editable" contenteditable="false" style="font-size: 0.85rem; color: var(--text-light);">Pembuatan konten informasi publik untuk media sosial organisasi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <div class="section-title">
+            <h2 class="editable" contenteditable="false">Keahlian & Tools</h2>
+        </div>
+        <div class="skills-container">
+            <div class="skill-tag editable" contenteditable="false">Administrasi</div>
+            <div class="skill-tag editable" contenteditable="false">Komunikasi Publik</div>
+            <div class="skill-tag editable" contenteditable="false">Microsoft Office</div>
+            <div class="skill-tag editable" contenteditable="false">Konten Kreator</div>
+            <div class="skill-tag editable" contenteditable="false">Public Relations</div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="section-title">
+            <h2 class="editable" contenteditable="false">Mari Terhubung</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-links">
+                <a href="mailto:lelijulianti176@upi.edu" class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span class="editable" contenteditable="false">lelijulianti176@upi.edu</span>
+                </a>
+                <a href="#" class="contact-item">
+                    <i class="fa-brands fa-linkedin"></i>
+                    <span class="editable" contenteditable="false">LinkedIn Profile</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p class="editable" contenteditable="false">&copy; 2024 Leli Julianti. Dibuat dengan dedikasi.</p>
+    </footer>
+
+    <script>
+        let isEditMode = false;
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editables = document.querySelectorAll('.editable');
+            const btn = document.getElementById('edit-toggle');
+            const btnText = document.getElementById('btn-text');
+            const imgInstructions = document.getElementById('img-instructions');
+
+            if (isEditMode) {
+                editables.forEach(el => el.contentEditable = "true");
+                btn.style.background = "#10b981"; // Green
+                btnText.innerText = "Simpan Perubahan";
+                imgInstructions.style.display = "block";
+                // Pesan bantuan
+                console.log("Mode Edit Aktif: Klik teks untuk mengubah.");
+            } else {
+                editables.forEach(el => el.contentEditable = "false");
+                btn.style.background = "#1e3a8a"; // Original Blue
+                btnText.innerText = "Edit Website";
+                imgInstructions.style.display = "none";
+                alert("Perubahan disimpan di browser Anda saat ini. Untuk menyimpan permanen, Anda perlu menyalin kode sumber setelah pengeditan.");
+            }
+        }
+
+        // Fitur ganti gambar via prompt (Double Click pada gambar saat mode edit)
+        document.getElementById('profile-img').addEventListener('dblclick', function() {
+            if (isEditMode) {
+                const newUrl = prompt("Masukkan URL gambar baru:", this.src);
+                if (newUrl) this.src = newUrl;
+            }
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Reveal animation on scroll
+        function reveal() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(s => {
+                const top = s.getBoundingClientRect().top;
+                if (top < window.innerHeight - 150) {
+                    s.style.opacity = "1";
+                    s.style.transform = "translateY(0)";
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        window.onload = () => {
+            document.querySelectorAll('section').forEach(s => {
+                s.style.opacity = "0";
+                s.style.transform = "translateY(30px)";
+                s.style.transition = "all 0.8s ease-out";
+            });
+            reveal();
+            document.getElementById('hero').style.opacity = "1";
+            document.getElementById('hero').style.transform = "translateY(0)";
+        };
+    </script>
+</body>
+</html>
